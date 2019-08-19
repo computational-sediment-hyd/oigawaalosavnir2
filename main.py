@@ -22,7 +22,7 @@ renderer = hv.Store.renderers['bokeh'].instance(mode='server', holomap='server')
 
 
 ds = xr.open_dataset('data/rgb.nc')
-# ds = ds.isel(time=slice(0,2))
+ds = ds.isel(time=slice(0,2))
 
 
 # In[ ]:
