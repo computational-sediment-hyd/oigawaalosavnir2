@@ -6,5 +6,5 @@ RUN conda install -y -c pyviz pyviz
 # RUN chmod -R 777 /opt/
 WORKDIR /app
 # COPY hvplottest.py /app
-COPY rgb_part_ver02.ipynb /app
+COPY rgb_part_ver02.py /app
 # COPY data/ /app/data/
