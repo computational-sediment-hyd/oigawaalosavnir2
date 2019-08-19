@@ -7,4 +7,4 @@ RUN conda install -y -c pyviz pyviz
 WORKDIR /app
 # COPY hvplottest.py /app
 COPY main.py /app
-# COPY data/ /app/data/
+COPY data/ /app/data/

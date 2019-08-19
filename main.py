@@ -9,7 +9,7 @@ import xarray as xr
 import cartopy.crs as ccrs
 import pandas as pd
 import hvplot.xarray
-# import hvplot.pandas
+import hvplot.pandas
 import geoviews as gv
 import holoviews as hv
 
@@ -21,25 +21,25 @@ renderer = hv.Store.renderers['bokeh'].instance(mode='server', holomap='server')
 # In[ ]:
 
 
-ds = xr.open_dataset('data/rgb.nc')
-ds = ds.isel(time=slice(0,2))
+# ds = xr.open_dataset('data/rgb.nc')
+# ds = ds.isel(time=slice(0,2))
 
 
 # In[ ]:
 
 
-# def parser(date):
-#     b = date.split(' ')
-#     c = b[1].split(':')
-#     return pd.datetime.strptime(b[0],'%Y/%m/%d') + pd.Timedelta(hours=int(c[0]), minutes=int(c[1])) 
+def parser(date):
+    b = date.split(' ')
+    c = b[1].split(':')
+    return pd.datetime.strptime(b[0],'%Y/%m/%d') + pd.Timedelta(hours=int(c[0]), minutes=int(c[1])) 
 
-# f = r'data/kanza_Q.csv'
-# dfQ = pd.read_csv(f, engine='python', index_col=0, parse_dates=True, header=None, date_parser=parser)
-# dfQ.columns = ['kanza_Q']
-# dfQ.index.name='time'
-# dfQ = dfQ.replace(-9999, np.nan)
+f = r'data/kanzaQ.csv'
+dfQ = pd.read_csv(f, engine='python', index_col=0, parse_dates=True, header=None, date_parser=parser)
+dfQ.columns = ['kanza_Q']
+dfQ.index.name='time'
+dfQ = dfQ.replace(-9999, np.nan)
 
-# gQ = dfQ.hvplot(width=700)
+gQ = dfQ.hvplot(width=700)
 
 # t = ds.time.values
 # timeUTC = pd.to_datetime(t, utc=True).tz_convert('Asia/Tokyo').round('1H')
@@ -59,7 +59,8 @@ outcrs = ccrs.epsg(6676)
 url = 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{Z}/{X}/{Y}.jpg'
 geomap = gv.WMTS(url, crs=outcrs)
 # fig = (geomap * ds.hvplot.rgb('x','y', z='z',bands='band',groupby='time', width=700, height=500) + gQ * gp).cols(1)
-fig = geomap * ds.hvplot.rgb('x','y', z='z',bands='band',groupby='time', width=700, height=500) 
+# fig = geomap * ds.hvplot.rgb('x','y', z='z',bands='band',groupby='time', width=700, height=500) 
+fig = gQ
 doc,_ = renderer(fig)
 doc.title = "Oigawa_Visualized_by_Alos-Avnir2"
 
