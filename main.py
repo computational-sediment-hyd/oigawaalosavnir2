@@ -21,7 +21,7 @@ renderer = hv.Store.renderers['bokeh'].instance(mode='server', holomap='server')
 # In[ ]:
 
 
-# ds = xr.open_dataset('data/rgb.nc')
+ds = xr.open_dataset('data/rgb.nc')
 # ds = ds.isel(time=slice(0,2))
 
 
@@ -41,15 +41,15 @@ dfQ = dfQ.replace(-9999, np.nan)
 
 gQ = dfQ.hvplot(width=700)
 
-# t = ds.time.values
-# timeUTC = pd.to_datetime(t, utc=True).tz_convert('Asia/Tokyo').round('1H')
+t = ds.time.values
+timeUTC = pd.to_datetime(t, utc=True).tz_convert('Asia/Tokyo').round('1H')
 
-# Qp = []
-# for time in pd.to_datetime( timeUTC.tz_localize(None) ):
-#     Qp.append( dfQ[ dfQ.index==time ].kanza_Q.values[0] )
+Qp = []
+for time in pd.to_datetime( timeUTC.tz_localize(None) ):
+    Qp.append( dfQ[ dfQ.index==time ].kanza_Q.values[0] )
     
-# dsQ = xr.Dataset({'kanza_Q': (['time'], np.array(Qp))}, coords={'time': ds['time'].values } )
-# gp = dsQ.hvplot.scatter('time','kanza_Q', groupby='time', legend=False, color='red', size=100)
+dsQ = xr.Dataset({'kanza_Q': (['time'], np.array(Qp))}, coords={'time': ds['time'].values } )
+gp = dsQ.hvplot.scatter('time','kanza_Q', groupby='time', legend=False, color='red', size=100)
 
 
 # In[ ]:
@@ -58,9 +58,9 @@ gQ = dfQ.hvplot(width=700)
 outcrs = ccrs.epsg(6676)
 url = 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{Z}/{X}/{Y}.jpg'
 geomap = gv.WMTS(url, crs=outcrs)
-# fig = (geomap * ds.hvplot.rgb('x','y', z='z',bands='band',groupby='time', width=700, height=500) + gQ * gp).cols(1)
+fig = (geomap * ds.hvplot.rgb('x','y', z='z',bands='band',groupby='time', width=700, height=500) + gQ * gp).cols(1)
 # fig = geomap * ds.hvplot.rgb('x','y', z='z',bands='band',groupby='time', width=700, height=500) 
-fig = gQ
+# fig = gQ
 doc,_ = renderer(fig)
 doc.title = "Oigawa_Visualized_by_Alos-Avnir2"
 
