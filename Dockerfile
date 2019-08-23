@@ -4,6 +4,6 @@ RUN conda install -y -c pyviz pyviz
 
 WORKDIR /app
 
-COPY main2.ipynb /app
+COPY main.py /app
 
 COPY data/ /app/data/
