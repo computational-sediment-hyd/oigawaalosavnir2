@@ -1,4 +1,4 @@
-FROM continuumio/miniconda3:4.5.12
+FROM continuumio/miniconda3:4.7.12
 
 # RUN conda install -y -c pyviz pyviz
 RUN conda install -y -c conda-forge numpy xarray pandas cartopy
